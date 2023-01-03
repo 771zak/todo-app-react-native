@@ -30,6 +30,7 @@ const Menu = (props) => {
 			style={props.display ? styles.container : { display: "none" }}
 		>
 			<Text>Menu is here</Text>
+			<Text>Welcome back, {props.name}</Text>
 			<TouchableOpacity style={styles.signOut} onPress={signOutUser}>
 				<Text style={{ color: "white", fontSize: 16 }}>Sign Out</Text>
 				<Icon name="sign-out" size={18} color="white" />
@@ -42,12 +43,14 @@ const styles = StyleSheet.create({
 	container: {
 		width: "50%",
 		height: "90%",
-		marginTop: 10,
+		top: 80,
 		borderRadius: 10,
 		backgroundColor: "white",
 		alignSelf: "flex-end",
 		elevation: 3,
+		position: "absolute",
 		alignItems: "center",
+		zIndex: 3,
 	},
 	signOut: {
 		width: "90%",

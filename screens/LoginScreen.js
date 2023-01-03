@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	TextInput,
 	TouchableOpacity,
+	TouchableWithoutFeedback,
 	KeyboardAvoidingView,
 	Platform,
 } from "react-native";
@@ -15,7 +16,7 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 const LoginScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [showPass, setShowPass] = useState(false);
+	const [showPass, setShowPass] = useState(true);
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
@@ -64,13 +65,15 @@ const LoginScreen = ({ navigation }) => {
 							value={password}
 							secureTextEntry={showPass}
 						/>
-						<Icon.Button
-							name={showPass ? "eye" : "eye-slash"}
-							color="black"
-							style={{ marginLeft: 10 }}
-							onPress={() => setShowPass(!showPass)}
-							backgroundColor="transparent"
-						></Icon.Button>
+						<TouchableOpacity onPress={() => setShowPass(!showPass)}>
+							<Icon
+								name={showPass ? "eye" : "eye-slash"}
+								color="black"
+								size={18}
+								style={{ marginLeft: 10 }}
+								backgroundColor="transparent"
+							/>
+						</TouchableOpacity>
 					</View>
 					<TouchableOpacity style={styles.signBtn} onPress={signIn}>
 						<Text style={{ fontSize: 18, color: "white" }}>Sign In</Text>
