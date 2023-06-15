@@ -13,6 +13,9 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { auth } from "../db";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
+// components
+import Logo from "../components/Logo.tsx";
+
 const LoginScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -39,13 +42,17 @@ const LoginScreen = ({ navigation }) => {
 			});
 	};
 
+	const switchToSignUp = () => {
+		navigation.navigate("Signup");
+	};
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.os == "ios" ? "padding" : "height"}
 			style={{ flex: 1 }}
 		>
 			<View style={styles.main}>
-				<Text style={styles.logo}>Todos</Text>
+				<Logo />
 				<Text style={{ fontSize: 23, marginBottom: 20 }}>
 					Wellcome back you've been missed!
 				</Text>
@@ -78,6 +85,15 @@ const LoginScreen = ({ navigation }) => {
 					<TouchableOpacity style={styles.signBtn} onPress={signIn}>
 						<Text style={{ fontSize: 18, color: "white" }}>Sign In</Text>
 					</TouchableOpacity>
+					<View style={styles.logScreenRoute}>
+						<Text>Don't have an accout?</Text>
+						<TouchableOpacity
+							style={{ marginLeft: 5 }}
+							onPress={switchToSignUp}
+						>
+							<Text style={{ fontSize: 17, color: "blue" }}>Register</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
 			</View>
 		</KeyboardAvoidingView>
@@ -89,9 +105,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-	},
-	logo: {
-		fontSize: 40,
 	},
 	inputContainer: {
 		width: "100%",
@@ -105,6 +118,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		flexDirection: "row",
 		marginBottom: 20,
+		elevation: 2,
 	},
 	email: {
 		backgroundColor: "white",
@@ -112,6 +126,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		width: "90%",
 		marginBottom: 20,
+		elevation: 2,
 	},
 	password: {
 		backgroundColor: "white",
@@ -126,6 +141,13 @@ const styles = StyleSheet.create({
 		padding: 10,
 		justifyContent: "center",
 		alignItems: "center",
+		elevation: 2,
+	},
+	logScreenRoute: {
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "baseline",
+		marginTop: 20,
 	},
 });
 
