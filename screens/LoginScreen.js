@@ -15,6 +15,8 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 // components
 import Logo from "../components/Logo.tsx";
+import InputField from "../components/InputField";
+import colors from "../Colors";
 
 const LoginScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
@@ -53,45 +55,33 @@ const LoginScreen = ({ navigation }) => {
 		>
 			<View style={styles.main}>
 				<Logo />
-				<Text style={{ fontSize: 23, marginBottom: 20 }}>
+				<Text style={{ fontSize: 20, marginBottom: 20 }}>
 					Wellcome back you've been missed!
 				</Text>
 				<View style={styles.inputContainer}>
-					<TextInput
-						placeholder="Enter your Email"
-						style={styles.email}
-						onChangeText={(text) => setEmail(text)}
-						value={email}
-						KeyboardType="email-address"
+					<InputField
+						name="Email"
+						changeInput={(input) => setEmail(input)}
+						icon="mail-outline"
 					/>
-					<View style={styles.passwordContainer}>
-						<TextInput
-							placeholder="Enter your password"
-							style={styles.password}
-							onChangeText={(text) => setPassword(text)}
-							value={password}
-							secureTextEntry={showPass}
-						/>
-						<TouchableOpacity onPress={() => setShowPass(!showPass)}>
-							<Icon
-								name={showPass ? "eye" : "eye-slash"}
-								color="black"
-								size={18}
-								style={{ marginLeft: 10 }}
-								backgroundColor="transparent"
-							/>
-						</TouchableOpacity>
-					</View>
+					<InputField
+						name="Password"
+						icon="lock-closed-outline"
+						changeInput={(input) => setPassword(input)}
+						password={true}
+					/>
 					<TouchableOpacity style={styles.signBtn} onPress={signIn}>
-						<Text style={{ fontSize: 18, color: "white" }}>Sign In</Text>
+						<Text style={{ fontSize: 18, fontWeight: "bold" }}>LOGIN</Text>
 					</TouchableOpacity>
 					<View style={styles.logScreenRoute}>
-						<Text>Don't have an accout?</Text>
+						<Text style={{ fontSize: 16 }}>Don't have an accout?</Text>
 						<TouchableOpacity
 							style={{ marginLeft: 5 }}
 							onPress={switchToSignUp}
 						>
-							<Text style={{ fontSize: 17, color: "blue" }}>Register</Text>
+							<Text style={{ fontSize: 16, color: colors.accent }}>
+								Register
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -107,37 +97,14 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	inputContainer: {
-		width: "100%",
+		width: "90%",
 		height: "30%",
 		alignItems: "center",
 	},
-	passwordContainer: {
-		width: "90%",
-		backgroundColor: "white",
-		alignItems: "center",
-		borderRadius: 10,
-		flexDirection: "row",
-		marginBottom: 20,
-		elevation: 2,
-	},
-	email: {
-		backgroundColor: "white",
-		borderRadius: 10,
-		padding: 10,
-		width: "90%",
-		marginBottom: 20,
-		elevation: 2,
-	},
-	password: {
-		backgroundColor: "white",
-		borderRadius: 10,
-		padding: 10,
-		width: "85%",
-	},
 	signBtn: {
-		backgroundColor: "#E1372D",
+		backgroundColor: colors.primary,
 		borderRadius: 10,
-		width: "50%",
+		width: "90%",
 		padding: 10,
 		justifyContent: "center",
 		alignItems: "center",

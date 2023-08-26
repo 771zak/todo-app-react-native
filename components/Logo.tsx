@@ -1,13 +1,15 @@
 import React from "react-native";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Image } from "react-native";
+import icon from "../assets/icon.png";
 
 const Logo = () => {
-	return <Text style={styles.logo}>Todos</Text>;
+	return <Image source={icon} style={styles.logo} />;
 };
 
 const styles = StyleSheet.create({
 	logo: {
-		fontSize: 40,
+		height: 120,
+		width: 125,
 	},
 });
 
