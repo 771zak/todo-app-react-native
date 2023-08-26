@@ -9,7 +9,11 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 } from "react-native";
+
+// icons
 import Icon from "react-native-vector-icons/FontAwesome";
+
+// firebase
 import { auth } from "../db";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
@@ -23,18 +27,7 @@ const LoginScreen = ({ navigation }) => {
 	const [password, setPassword] = useState("");
 	const [showPass, setShowPass] = useState(true);
 
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-				navigation.replace("Home");
-			} else {
-				console.log("not Signed");
-			}
-		});
-	}, []);
-
 	const signIn = () => {
-		console.log("btn clicked");
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCred) => {
 				navigation.navigate("Home");

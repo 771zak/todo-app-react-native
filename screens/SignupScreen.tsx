@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -6,6 +6,14 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
+
+// firebase
+import { auth, db } from "../db.js";
+import {
+	onAuthStateChanged,
+	createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 //components
 import Logo from "../components/Logo.tsx";
@@ -21,13 +29,19 @@ const SignupScreen = ({ navigation }) => {
 	const [password, setPassword] = useState("");
 
 	let signUp = () => {
-		console.log({
-			username: userName,
-			email: email,
-			password: password,
-		});
+		createUserWithEmailAndPassword(auth, email, password)
+			.then((userCred) => {
+				const userUid = userCred.user.uid;
+				setDoc(doc(db, "users", userUid), {
+					userName: userName,
+					email: email,
+				});
+				navigation.navigate("Login");
+			})
+			.catch((err) => {
+				console.log(err.message);
+			});
 	};
-
 	let switchToSignIn = () => {
 		navigation.navigate("Login");
 	};

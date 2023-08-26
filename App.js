@@ -17,6 +17,7 @@ export default function App({ navigation }) {
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
+				console.log(user);
 				navigation.replace("Home");
 			} else {
 				console.log("not Signed");
