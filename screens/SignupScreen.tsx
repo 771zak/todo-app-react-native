@@ -12,6 +12,7 @@ import { auth, db } from "../db.js";
 import {
 	onAuthStateChanged,
 	createUserWithEmailAndPassword,
+	updateProfile,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -32,11 +33,15 @@ const SignupScreen = ({ navigation }) => {
 		createUserWithEmailAndPassword(auth, email, password)
 			.then((userCred) => {
 				const userUid = userCred.user.uid;
-				setDoc(doc(db, "users", userUid), {
-					userName: userName,
-					email: email,
-				});
-				navigation.navigate("Login");
+				updateProfile(auth.currentUser, {
+					displayName: userName,
+				}).then(() => {
+					navigation.navigate("Home");
+				})
+				// setDoc(doc(db, "users", userUid), {
+				// 	userName: userName,
+				// 	email: email,
+				// });
 			})
 			.catch((err) => {
 				console.log(err.message);
