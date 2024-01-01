@@ -22,23 +22,25 @@ import Logo from "../components/Logo.tsx";
 import InputField from "../components/InputField";
 import colors from "../Colors";
 
+import { useAuth } from "../AuthContext";
+
 const LoginScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPass, setShowPass] = useState(true);
 
+	const [_, setUser] = useAuth();
+
 	const signIn = () => {
+
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCred) => {
-				navigation.replace("Home");
+				console.log("LOGGED IN");
+				setUser(userCred.user)
 			})
 			.catch((error) => {
 				console.log(error.message);
 			});
-	};
-
-	const switchToSignUp = () => {
-		navigation.navigate("Signup");
 	};
 
 	return (

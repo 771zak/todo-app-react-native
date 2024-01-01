@@ -24,29 +24,39 @@ import colors from "../Colors.js";
 // icons
 import Icon from "react-native-vector-icons/Ionicons";
 
+import { useAuth } from "../AuthContext.js";
+
 const SignupScreen = ({ navigation }) => {
 	const [userName, setUserName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const [_, setUser] = useAuth();
+
+
 	let signUp = () => {
+		let userUid;
 		createUserWithEmailAndPassword(auth, email, password)
 			.then((userCred) => {
-				const userUid = userCred.user.uid;
+				userUid = userCred.user.uid;
+
 				updateProfile(auth.currentUser, {
 					displayName: userName,
 				}).then(() => {
-					navigation.navigate("Home");
+					setUser(userCred.user)
 				})
-				// setDoc(doc(db, "users", userUid), {
-				// 	userName: userName,
-				// 	email: email,
-				// });
+
+			})
+			.then( async () => {
+				await setDoc(doc(db, "users", userUid), {
+					name: userName,
+				})
 			})
 			.catch((err) => {
 				console.log(err.message);
 			});
 	};
+
 	let switchToSignIn = () => {
 		navigation.navigate("Login");
 	};

@@ -12,27 +12,40 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import HomeScreen from "./screens/HomeScreen";
 
+import AuthProvider, {useAuth} from "./AuthContext";
+
 const Stack = createNativeStackNavigator();
 
+const Navigator = () => {
+	
+	const [user] = useAuth();
+
+	if (!user) {
+		return (
+			<Stack.Navigator screenOptions={{ headerShown: false }}>
+					<Stack.Screen name="Login" component={LoginScreen} />
+					<Stack.Screen name="Signup" component={SignupScreen} />
+				</Stack.Navigator>
+		)
+	} else {
+		return (
+			<Stack.Navigator screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="Home" component={HomeScreen} />
+			</Stack.Navigator>
+		)
+
+	}
+
+}
+
 export default function App({ navigation }) {
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-				console.log(user);
-				navigation.replace("Home");
-			} else {
-				console.log("not Signed");
-			}
-		});
-	}, []);
+
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator screenOptions={{ headerShown: false }}>
-				<Stack.Screen name="Home" component={HomeScreen} />
-				<Stack.Screen name="Login" component={LoginScreen} />
-				<Stack.Screen name="Signup" component={SignupScreen} />
-			</Stack.Navigator>
+			<AuthProvider>
+				<Navigator />
+			</AuthProvider>
 		</NavigationContainer>
 	);
 }
